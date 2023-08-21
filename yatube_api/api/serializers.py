@@ -1,13 +1,15 @@
 from django.contrib.auth import get_user_model
-from posts.models import Comment, Follow, Group, Post
 from rest_framework import serializers
-from rest_framework.relations import SlugRelatedField
+
+from posts.models import Comment, Follow, Group, Post
 
 User = get_user_model()
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = SlugRelatedField(slug_field="username", read_only=True)
+    author = serializers.SlugRelatedField(
+        slug_field="username", read_only=True
+    )
 
     class Meta:
         fields = "__all__"
@@ -40,19 +42,3 @@ class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         fields = "__all__"
         model = Follow
-
-
-class JWTSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField()
-
-    def validate(self, data):
-        username = data.get("username", None)
-        password = data.get("password", None)
-
-        if username and password:
-            return data
-        else:
-            raise serializers.ValidationError(
-                "Both username and password are required."
-            )

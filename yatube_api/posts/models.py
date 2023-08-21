@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from posts.constants import MAX_LENGTH_TEXT
+
 User = get_user_model()
 
 
@@ -26,7 +28,7 @@ class Post(models.Model):
     )
 
     def __str__(self):
-        return self.text
+        return self.text[:MAX_LENGTH_TEXT]
 
 
 class Comment(models.Model):
@@ -47,6 +49,9 @@ class Comment(models.Model):
 
     class Meta:
         default_related_name = "comments"
+
+    def __str__(self):
+        return self.text[:MAX_LENGTH_TEXT]
 
 
 class Follow(models.Model):
@@ -70,4 +75,4 @@ class Group(models.Model):
     description = models.TextField("Описание")
 
     def __str__(self):
-        return self.title
+        return self.title[:MAX_LENGTH_TEXT]
