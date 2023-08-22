@@ -24,7 +24,7 @@ class Post(models.Model):
         blank=True,
         null=True,
         verbose_name="Группа",
-        related_name="groups",
+        related_name="posts",
     )
 
     def __str__(self):
